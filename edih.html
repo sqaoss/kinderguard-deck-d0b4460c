@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>KinderGuard · Digital Sovereignty for Europe's Children (EDIH)</title>
+<meta name="description" content="KinderGuard: a dedicated, EU-hosted alternative to Big-Tech-mediated childcare communication. A sovereign platform protecting the data of Europe's children, seeking EDIH support to reach production and first pilots." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#0a1f44;--navy-2:#0c2752;--blue:#1b3fae;--blue-soft:#2f54c9;
+    --teal:#14b8a6;--teal-deep:#0e9384;--warm:#f6a821;--warm-soft:#ffcd6b;
+    --paper:#f7f5f0;--paper-2:#fffdf8;--ink:#0a1124;--ink-soft:#3a4259;
+    --line:rgba(10,31,68,.10);--card:#ffffff;--radius:18px;--maxw:1180px;
+    --shadow-lg:0 30px 70px -28px rgba(10,31,68,.45);--shadow-md:0 18px 44px -22px rgba(10,31,68,.4);
+    --font-head:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--font-body);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55}
+  h1,h2,h3,h4{font-family:var(--font-head);line-height:1.08;margin:0;letter-spacing:-.02em;font-weight:700}
+  p{margin:0}a{color:inherit}img{max-width:100%;display:block}
+
+  .deck{height:100vh;height:100dvh;overflow-y:scroll}
+  section{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:84px clamp(20px,5vw,72px) 72px;position:relative}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto}
+
+  .progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--blue),var(--teal));z-index:120;transition:width .15s ease-out}
+  .topbar{position:fixed;top:0;left:0;right:0;height:54px;z-index:110;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,40px);transition:background .3s,backdrop-filter .3s,box-shadow .3s}
+  .topbar.scrolled{background:rgba(247,245,240,.82);backdrop-filter:saturate(160%) blur(12px);box-shadow:0 1px 0 var(--line)}
+  .brandmark{display:flex;align-items:center;gap:9px;font-family:var(--font-head);font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--navy)}
+  .brandmark .glyph{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;font-size:13px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.14)}
+  .topbar .cta{font-family:var(--font-body);font-weight:600;font-size:13px;color:var(--navy);text-decoration:none;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:transform .15s,box-shadow .2s}
+  .topbar .cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+
+  .dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:115;display:flex;flex-direction:column;gap:11px}
+  .dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;cursor:pointer;background:rgba(10,31,68,.22);transition:transform .2s,background .2s}
+  .dots button:hover{background:rgba(10,31,68,.45)}
+  .dots button.active{background:var(--teal);transform:scale(1.45)}
+  .dots button.on-dark{background:rgba(255,255,255,.3)}
+  .dots button.on-dark.active{background:var(--warm)}
+
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep)}
+  .kicker .num{font-variant-numeric:tabular-nums;color:var(--blue);opacity:.85}
+  section.dark .kicker{color:var(--teal)}section.dark .kicker .num{color:var(--warm-soft)}
+  h2.title{font-size:clamp(28px,4.4vw,52px);font-weight:800;margin-top:18px;max-width:20ch}
+  .lead{font-size:clamp(16px,1.7vw,20px);color:var(--ink-soft);max-width:64ch;margin-top:20px;line-height:1.6}
+  section.dark .lead{color:rgba(233,238,248,.82)}
+  .eyebrow-line{width:54px;height:3px;border-radius:2px;background:var(--warm);margin-top:6px}
+
+  section.dark{background:radial-gradient(120% 120% at 12% 0%,var(--navy-2) 0%,var(--navy) 55%,#071734 100%);color:#eaf0fb}
+  section.dark h2.title{color:#fff}
+  section.tint{background:linear-gradient(180deg,#fff 0%,var(--paper) 100%)}
+
+  /* HERO */
+  .hero{background:radial-gradient(130% 120% at 80% -10%,#13357f 0%,var(--navy) 48%,#06122b 100%);color:#fff;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 50% at 88% 18%,rgba(27,63,174,.4),transparent 70%),radial-gradient(36% 44% at 10% 92%,rgba(20,184,166,.18),transparent 70%);pointer-events:none}
+  .hero .wrap{position:relative;z-index:2}
+  .hero .stars{position:absolute;inset:0;opacity:.5;z-index:1;background-image:radial-gradient(1.4px 1.4px at 20% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1.2px 1.2px at 70% 60%,rgba(255,255,255,.35),transparent),radial-gradient(1.1px 1.1px at 40% 80%,rgba(255,255,255,.3),transparent),radial-gradient(1.3px 1.3px at 88% 42%,rgba(255,255,255,.4),transparent)}
+  .flag-chip{display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);font-size:12.5px;font-weight:600;letter-spacing:.04em;backdrop-filter:blur(6px)}
+  .flag-chip .eu{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--blue);color:var(--warm-soft);font-size:11px}
+  .hero h1{font-size:clamp(34px,6.2vw,76px);font-weight:800;letter-spacing:-.035em;margin-top:22px;line-height:1.02;max-width:18ch}
+  .hero h1 .hl{background:linear-gradient(120deg,var(--teal) 0%,var(--warm) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:clamp(16px,1.9vw,21px);color:rgba(231,238,250,.84);max-width:62ch;margin-top:24px;line-height:1.6}
+  .hero .row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-head);font-weight:600;font-size:15px;text-decoration:none;padding:14px 24px;border-radius:999px;transition:transform .15s,box-shadow .25s,background .2s}
+  .btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue-soft));color:#fff;box-shadow:0 16px 36px -14px rgba(27,63,174,.7)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 22px 46px -14px rgba(27,63,174,.85)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.2)}
+  .btn-ghost:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:30px 52px;margin-top:48px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
+  .hero-stats .s b{display:block;font-family:var(--font-head);font-weight:800;font-size:clamp(20px,2.4vw,28px);color:#fff;letter-spacing:-.02em}
+  .hero-stats .s span{font-size:13px;color:rgba(231,238,250,.62);letter-spacing:.02em}
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2}
+  .scrollcue .mouse{width:22px;height:34px;border:1.5px solid rgba(255,255,255,.4);border-radius:12px;position:relative}
+  .scrollcue .mouse::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:6px;border-radius:2px;background:rgba(255,255,255,.7);animation:wheel 1.6s ease-in-out infinite}
+  @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}60%{opacity:1}100%{opacity:0;transform:translate(-50%,9px)}}
+
+  .grid{display:grid;gap:22px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .split{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+  .split.rev{grid-template-columns:1fr 1.05fr}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-md)}
+  section.dark .card{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);box-shadow:none;backdrop-filter:blur(4px)}
+  .card .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(27,63,174,.12),rgba(20,184,166,.16));color:var(--blue);margin-bottom:16px}
+  section.dark .card .ico{background:rgba(20,184,166,.16);color:var(--teal)}
+  .card h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+  .card p{font-size:14.5px;color:var(--ink-soft);line-height:1.55}
+  section.dark .card p{color:rgba(231,238,250,.78)}section.dark .card h3{color:#fff}
+
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+  .role{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-md)}
+  .role .tag2{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:700;font-size:13px;letter-spacing:.02em;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+  .role.parents .tag2{background:rgba(246,168,33,.16);color:#a96d05}
+  .role.educators .tag2{background:rgba(20,184,166,.14);color:var(--teal-deep)}
+  .role.directors .tag2{background:rgba(27,63,174,.12);color:var(--blue)}
+  .role h3{font-size:16px;margin-bottom:8px}
+  .role ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:14px;line-height:1.7}.role ul li{margin-bottom:3px}
+
+  .browser{border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-lg);width:100%}
+  .browser .bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:linear-gradient(180deg,#f4f5f8,#eceef3);border-bottom:1px solid rgba(10,31,68,.08)}
+  .browser .dot{width:11px;height:11px;border-radius:50%}
+  .browser .dot.r{background:#ff5f57}.browser .dot.y{background:#febc2e}.browser .dot.g{background:#28c840}
+  .browser .url{flex:1;margin-left:10px;font-size:11.5px;color:#6a7488;background:#fff;border:1px solid rgba(10,31,68,.08);border-radius:7px;padding:5px 12px;display:flex;align-items:center;gap:7px;font-family:var(--font-body)}
+  .browser .url svg{flex:none;opacity:.7}
+  .browser .shot{display:block;width:100%;height:auto;background:#f7f7f9}
+  .browser.tall .shot{max-height:560px;object-fit:cover;object-position:top}
+  .frame-cap{font-size:13px;color:var(--ink-soft);margin-top:14px;text-align:center}
+  section.dark .frame-cap{color:rgba(231,238,250,.7)}
+
+  .phone{width:248px;max-width:60vw;border-radius:38px;background:#0a1124;padding:11px;box-shadow:var(--shadow-lg),0 0 0 1px rgba(10,31,68,.2);position:relative;flex:none}
+  .phone::before{content:"";position:absolute;top:17px;left:50%;transform:translateX(-50%);width:88px;height:22px;background:#0a1124;border-radius:0 0 14px 14px;z-index:3}
+  .phone .scr{border-radius:28px;overflow:hidden;background:#fff;aspect-ratio:1170/2532}
+  .phone .scr img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .phones{display:flex;justify-content:center;gap:clamp(10px,2.5vw,30px);flex-wrap:wrap}
+  .phones .phone:nth-child(1){transform:translateY(14px) rotate(-3deg)}
+  .phones .phone:nth-child(2){z-index:2}
+  .phones .phone:nth-child(3){transform:translateY(14px) rotate(3deg)}
+
+  /* AULA */
+  .quote-wrap{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-left:4px solid var(--warm);border-radius:14px;padding:28px 30px}
+  .quote-wrap .q{font-family:var(--font-head);font-weight:600;font-size:clamp(20px,2.5vw,30px);line-height:1.28;color:#fff;letter-spacing:-.01em}
+  .quote-wrap .q .hl{color:var(--warm-soft)}
+  .quote-wrap .cite{margin-top:16px;font-size:14px;color:rgba(231,238,250,.7)}.quote-wrap .cite b{color:#fff;font-weight:600}
+  .timeline-aula{display:grid;gap:16px;margin-top:8px}
+  .step{display:flex;gap:16px;align-items:flex-start}
+  .step .n{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:14px;background:rgba(20,184,166,.16);color:var(--teal)}
+  .step h4{font-size:16px;color:#fff;margin-bottom:4px;font-weight:600}
+  .step p{font-size:14px;color:rgba(231,238,250,.76);line-height:1.55}
+
+  .sov-list{display:grid;gap:14px;margin-top:6px}
+  .sov-item{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:16px 18px}
+  .sov-item .chk{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#fff;font-size:14px}
+  .sov-item b{display:block;color:#fff;font-weight:600;font-size:15px;margin-bottom:2px}
+  .sov-item span{font-size:13.5px;color:rgba(231,238,250,.74);line-height:1.5}
+  .never-badge{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:11px 18px;border-radius:999px;background:rgba(246,168,33,.12);border:1px solid rgba(246,168,33,.3);color:var(--warm-soft);font-weight:600;font-size:14px}
+
+  /* EU alignment grid */
+  .align-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:10px}
+  .align{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow-md);border-left:4px solid var(--blue)}
+  .align .tag{font-family:var(--font-head);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+  .align h3{font-size:18px;margin:8px 0 8px}
+  .align p{font-size:14px;color:var(--ink-soft);line-height:1.55}
+  .align.impact{border-left-color:var(--teal)}.align.impact .tag{color:var(--teal-deep)}
+
+  /* public sector vision */
+  .pub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:10px}
+  .pub{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px}
+  .pub .ic{font-size:24px;margin-bottom:10px;display:block}
+  .pub h3{font-size:17px;color:#fff;margin-bottom:8px}
+  .pub p{font-size:13.5px;color:rgba(231,238,250,.78);line-height:1.55}
+
+  /* why now */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px}
+  .why{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px}
+  .why .ic{font-size:22px;margin-bottom:10px;display:block}
+  .why h3{font-size:16px;color:#fff;margin-bottom:6px}
+  .why p{font-size:13.5px;color:rgba(231,238,250,.76);line-height:1.5}
+
+  /* honest status */
+  .status-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,48px);align-items:center}
+  .demo-banner{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(246,168,33,.16);border:1px solid rgba(246,168,33,.35);color:#a96d05;font-weight:600;font-size:13.5px;margin-bottom:18px}
+  .check-list{display:grid;gap:12px;margin-top:4px}
+  .check-list .ci{display:flex;gap:13px;align-items:flex-start;font-size:15px}
+  .check-list .ci .ic{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:13px}
+  .ci.done .ic{background:rgba(20,184,166,.16);color:var(--teal-deep)}
+  .ci.next .ic{background:rgba(246,168,33,.18);color:#a96d05}
+  .ci b{font-weight:600}
+  .status-ribbon{background:linear-gradient(135deg,var(--navy),#13357f);color:#fff;border-radius:16px;padding:26px;box-shadow:var(--shadow-lg)}
+  .status-ribbon .big{font-family:var(--font-head);font-weight:800;font-size:clamp(22px,2.6vw,30px);letter-spacing:-.02em;line-height:1.15}
+  .status-ribbon .big .hl{color:var(--warm-soft)}
+  .status-ribbon p{font-size:14.5px;color:rgba(231,238,250,.84);margin-top:14px;line-height:1.6}
+
+  /* founder */
+  .founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,4vw,56px);align-items:center}
+  .founder .ava{aspect-ratio:1;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,#13357f,var(--navy));display:grid;place-items:center;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+  .founder .ava .mono{font-family:var(--font-head);font-weight:800;font-size:clamp(60px,11vw,120px);color:rgba(255,255,255,.92);letter-spacing:-.04em}
+  .founder .ava::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 80% 90%,rgba(27,63,174,.45),transparent 70%)}
+  .founder blockquote{font-family:var(--font-head);font-weight:600;font-size:clamp(19px,2.3vw,27px);line-height:1.3;letter-spacing:-.01em;margin:0 0 18px}
+  .founder .role-line{font-size:15px;color:var(--ink-soft);line-height:1.65}.founder .role-line b{color:var(--ink)}
+  .founder .honest{margin-top:18px;font-size:14px;color:var(--ink-soft);background:rgba(27,63,174,.06);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+
+  /* EDIH ask */
+  .ask{background:radial-gradient(120% 130% at 50% 0%,#13357f 0%,var(--navy) 50%,#06122b 100%);color:#fff}
+  .ask::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 50% at 50% 120%,rgba(27,63,174,.32),transparent 70%);pointer-events:none}
+  .ask .wrap{position:relative;z-index:2}
+  .ask .uses{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:36px 0 0}
+  .ask .use{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:24px}
+  .ask .use .n{font-family:var(--font-head);font-weight:800;color:var(--teal);font-size:15px;letter-spacing:.06em}
+  .ask .use h3{font-size:17px;margin:8px 0 8px;color:#fff}
+  .ask .use p{font-size:13.5px;color:rgba(231,238,250,.8);line-height:1.55}
+  .ask .contact{margin-top:38px;font-size:clamp(16px,2vw,21px);font-family:var(--font-head);font-weight:600}
+  .ask .contact a{color:var(--warm-soft);text-decoration:none;border-bottom:2px solid rgba(246,168,33,.4);transition:border-color .2s}
+  .ask .contact a:hover{border-color:var(--warm)}
+  .ask .closing{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-left:4px solid var(--teal);border-radius:14px;padding:22px 26px;margin-top:30px;font-family:var(--font-head);font-weight:600;font-size:clamp(15px,1.9vw,20px);line-height:1.4;letter-spacing:-.01em}
+  .ask .closing .hl{color:var(--warm-soft)}
+
+  footer{background:#06122b;color:rgba(231,238,250,.6);padding:30px clamp(20px,5vw,72px);font-size:13.5px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;max-width:var(--maxw);margin:0 auto}
+  footer .brandmark{color:#fff}footer a{color:var(--teal);text-decoration:none}
+
+  @media (max-width:920px){
+    .split,.split.rev,.founder,.status-grid{grid-template-columns:1fr}
+    .split.rev .browser-col{order:-1}
+    .g3,.g4,.roles,.why-grid,.pub-grid,.align-grid,.ask .uses{grid-template-columns:1fr}
+    .g2{grid-template-columns:1fr}
+    .dots{display:none}
+    section{padding:80px clamp(18px,5vw,40px) 60px}
+  }
+  @media (max-width:560px){
+    section{min-height:auto;padding:74px 18px 48px}
+    .hero-stats{gap:20px 30px}
+    .phones{gap:8px}.phone{width:200px}
+    .phones .phone:nth-child(1),.phones .phone:nth-child(3){transform:none;rotate:0deg}
+    h2.title{font-size:28px}
+    .topbar .cta{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="topbar" id="topbar">
+  <a href="#hero" class="brandmark"><span class="glyph">K</span> KinderGuard</a>
+  <a href="#ask" class="cta">EDIH support →</a>
+</header>
+<nav class="dots" id="dots" aria-label="Section navigation"></nav>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · HERO (mission-led) -->
+  <section class="hero" id="hero" data-label="Mission">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="flag-chip reveal"><span class="eu">★</span> A European digital-sovereignty project</span>
+      <h1 class="reveal d1">Protecting the data of <span class="hl">Europe's children</span>, on European soil.</h1>
+      <p class="sub reveal d3">KinderGuard is a dedicated, EU-hosted alternative to Big-Tech-mediated childcare communication. One private platform where parents, educators and directors connect, and every byte of children's data stays in Europe, under European law.</p>
+      <div class="row reveal d4">
+        <a href="#alignment" class="btn btn-primary">EU alignment →</a>
+        <a href="#sovereign" class="btn btn-ghost">The architecture</a>
+      </div>
+      <div class="hero-stats reveal d5">
+        <div class="s"><b>100% EU</b><span>Scaleway (FR) · Neon (EU)</span></div>
+        <div class="s"><b>Public good</b><span>Children's data, protected</span></div>
+        <div class="s"><b>B2G-ready</b><span>A sovereign platform for the state</span></div>
+        <div class="s"><b>€0</b><span>data ever monetized</span></div>
+      </div>
+    </div>
+    <div class="scrollcue" aria-hidden="true"><span class="mouse"></span>Scroll</div>
+  </section>
+
+  <!-- 2 · PROBLEM (public-good framing) -->
+  <section class="tint" id="problem" data-label="The problem">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">01</span> · The problem</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Europe's youngest citizens have their data running through Big Tech.</h2>
+      <p class="lead reveal d2">Across the continent, kindergartens run on WhatsApp groups and generic apps never built for them. Photos, health notes, allergies, where a child is at any hour: their entire day flows through platforms outside European jurisdiction, built to monetize data rather than protect it.</p>
+      <div class="grid g3" style="margin-top:38px">
+        <div class="card reveal d2"><div class="ico">🛰️</div><h3>Data outside EU jurisdiction</h3><p>Sensitive records on children pass through US-owned platforms that can be compelled to disclose under foreign law.</p></div>
+        <div class="card reveal d3"><div class="ico">🔒</div><h3>No sovereign alternative</h3><p>There is no dedicated, EU-hosted platform for childcare communication, so institutions default to whatever Big Tech offers.</p></div>
+        <div class="card reveal d4"><div class="ico">🤝</div><h3>A weakened public sphere</h3><p>The most foundational relationship, family and educator, is mediated by infrastructure no European authority controls.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · AULA proof + gap -->
+  <section class="dark" id="aula" data-label="The AULA precedent">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">02</span> · A European precedent</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Denmark already showed both the demand and the sovereignty gap.</h2>
+      <div class="split" style="margin-top:36px">
+        <div>
+          <div class="timeline-aula">
+            <div class="step reveal d2"><div class="n">1</div><div><h4>Denmark built AULA</h4><p>A dedicated national parent-educator platform. One channel for the whole relationship. No WhatsApp. Families embraced it as the way schools and homes communicate.</p></div></div>
+            <div class="step reveal d3"><div class="n">2</div><div><h4>But AULA runs on AWS</h4><p>Even this flagship public platform sits on US-owned cloud infrastructure, and that became the sovereignty problem.</p></div></div>
+            <div class="step reveal d4"><div class="n">3</div><div><h4>The regulator refused</h4><p>Denmark's own data authority, <b>Datatilsynet</b>, declined to approve the arrangement over fears US authorities could compel access to children's data.</p></div></div>
+          </div>
+        </div>
+        <div class="reveal d3">
+          <div class="quote-wrap">
+            <p class="q">Amazon's guarantees that children's data is safe from US authorities were <span class="hl">"pure theater."</span></p>
+            <p class="cite"><b>David Heinemeier Hansson</b> (creator of Ruby on Rails), on the AULA / AWS arrangement.<br>Reported by <b>radar.dk</b>, 2023.</p>
+          </div>
+          <div class="never-badge" style="margin-top:24px">A whole nation wanted this. A genuinely sovereign version still doesn't exist.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · PRODUCT -->
+  <section class="tint" id="product" data-label="The platform">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">03</span> · The platform</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">One private platform. Three role-built experiences.</h2>
+      <p class="lead reveal d2">Built so the relationship between families and educators is the product, with real management tools for directors. All on European infrastructure.</p>
+
+      <div class="roles reveal d2" style="margin-top:34px">
+        <div class="role parents"><span class="tag2">👨‍👩‍👧 Parents</span><h3>The whole day, privately</h3><ul><li>Real-time chat with educators</li><li>Their child's day: meals, naps, play</li><li>Calendar & event RSVPs</li><li>Announcements that matter</li></ul></div>
+        <div class="role educators"><span class="tag2">🍎 Educators</span><h3>Less admin, more presence</h3><ul><li>Fast attendance & check-in</li><li>Activity logging with photos</li><li>Announcements to families</li><li>One conversation inbox</li></ul></div>
+        <div class="role directors"><span class="tag2">🏫 Directors</span><h3>Run the whole center</h3><ul><li>Live management dashboard</li><li>Settings & GDPR controls</li><li>Tablet kiosk check-in</li><li>10 themes, dark mode, kiosk</li></ul></div>
+      </div>
+
+      <div class="split" style="margin-top:46px">
+        <div class="browser-col reveal d2">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 10V8a6 6 0 1112 0v2" stroke="#6a7488" stroke-width="2"/><rect x="4" y="10" width="16" height="11" rx="2" fill="#6a7488"/></svg>kinderguard.ro · Educator</span></div><img class="shot" src="assets/educator-01-dashboard.png" alt="Educator dashboard showing classes and recent announcements" loading="lazy" /></div>
+          <p class="frame-cap">Educators: classes at a glance, with attendance, activities and photos one click away.</p>
+        </div>
+        <div class="reveal d3">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 10V8a6 6 0 1112 0v2" stroke="#6a7488" stroke-width="2"/><rect x="4" y="10" width="16" height="11" rx="2" fill="#6a7488"/></svg>kinderguard.ro · Parent</span></div><img class="shot" src="assets/parent-03-chat-thread.png" alt="Parent chat thread with their child's educator" loading="lazy" /></div>
+          <p class="frame-cap">Parents: a private, direct line to their child's educator, not another group chat.</p>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:30px">
+        <div class="reveal d2"><div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Activity logging</span></div><img class="shot" src="assets/educator-03-activities.png" alt="Educator logging an activity with type, time and photo" loading="lazy" /></div></div>
+        <div class="reveal d3"><div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Announcements</span></div><img class="shot" src="assets/educator-07-announcements.png" alt="Educator announcements board" loading="lazy" /></div></div>
+        <div class="reveal d4"><div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Director · calendar</span></div><img class="shot" src="assets/admin-05-calendar.png" alt="Director calendar with events" loading="lazy" /></div></div>
+      </div>
+
+      <div style="margin-top:48px">
+        <h3 style="font-family:var(--font-head);font-weight:700;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.02em" class="reveal">Where families already live: their phone.</h3>
+        <p class="lead reveal d1" style="margin-top:12px">The child's day, the timeline, and the educator chat, all in the pocket and all sovereign.</p>
+        <div class="phones reveal d2" style="margin-top:30px">
+          <div class="phone"><div class="scr"><img src="assets/parent-mobile-01-feed.png" alt="Parent mobile dashboard showing their children" loading="lazy" /></div></div>
+          <div class="phone"><div class="scr"><img src="assets/parent-mobile-02-timeline.png" alt="Parent mobile activity timeline" loading="lazy" /></div></div>
+          <div class="phone"><div class="scr"><img src="assets/parent-mobile-03-chat.png" alt="Parent mobile chat with educator" loading="lazy" /></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · SOVEREIGN BY ARCHITECTURE (core value to EDIH) -->
+  <section class="dark" id="sovereign" data-label="Sovereign by design">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">04</span> · The core value</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Built sovereign by architecture.</h2>
+      <p class="lead reveal d2">The market treats EU data residency as optional. <b style="color:#fff">KinderGuard treats it as the product.</b> Children's data lives on European infrastructure. Never AWS, Azure or GCP.</p>
+      <div class="split" style="margin-top:36px">
+        <div>
+          <div class="sov-list">
+            <div class="sov-item reveal d2"><div class="chk">✓</div><div><b>EU-only infrastructure</b><span>Scaleway (France) · Neon (EU). Children's data never leaves European jurisdiction.</span></div></div>
+            <div class="sov-item reveal d2"><div class="chk">✓</div><div><b>Row-Level-Security isolation</b><span>Multi-tenant by design. Each center's data is cryptographically partitioned at the database layer.</span></div></div>
+            <div class="sov-item reveal d3"><div class="chk">✓</div><div><b>Signed Article 28 GDPR DPA</b><span>A live Data Processing Agreement with named EU sub-processors. It is signed and in force today.</span></div></div>
+            <div class="sov-item reveal d4"><div class="chk">✓</div><div><b>Granular consent controls</b><span>Parents decide who sees each photo: just me, educators, other parents, or administrators. Privacy ships as a real setting parents control.</span></div></div>
+          </div>
+          <div class="never-badge reveal d4">🚫 Zero data monetization. Ever.</div>
+        </div>
+        <div class="reveal d3">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Settings · Photo visibility (GDPR)</span></div><img class="shot tall" src="assets/admin-07-settings.png" alt="Account settings showing per-audience photo visibility GDPR toggles" loading="lazy" /></div>
+          <p class="frame-cap">Per-audience photo-visibility toggles, with consent the parent controls.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · EU STRATEGIC ALIGNMENT -->
+  <section class="tint" id="alignment" data-label="EU alignment">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">05</span> · Strategic alignment</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Aligned with Europe's digital-sovereignty & data-protection priorities.</h2>
+      <p class="lead reveal d2">KinderGuard sits exactly where EU policy is pushing: keeping Europeans' most sensitive data on European infrastructure, under European law, free from foreign access.</p>
+      <div class="align-grid" style="margin-top:34px">
+        <div class="align reveal d2"><span class="tag">Digital sovereignty</span><h3>European data on European soil</h3><p>A concrete answer to the strategic priority of reducing dependence on non-EU cloud providers for critical and sensitive data. We can demonstrate it today.</p></div>
+        <div class="align reveal d2"><span class="tag">Data protection</span><h3>GDPR built into the foundation</h3><p>Article 28 DPA, named EU sub-processors, row-level isolation and parent-controlled consent are built into the architecture from the first line of code.</p></div>
+        <div class="align impact reveal d3"><span class="tag">Social impact</span><h3>Protecting children first</h3><p>The most vulnerable data subjects are young children who cannot consent, and they get the strongest protection. Privacy by design for those who need it most.</p></div>
+        <div class="align impact reveal d4"><span class="tag">Trustworthy tech</span><h3>Technology that strengthens the public sphere</h3><p>Reconnecting families and educators on infrastructure a European authority can actually trust, and rebuilding institutional trust in digital tools.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · PUBLIC-SECTOR / B2G VISION -->
+  <section class="dark" id="public" data-label="Public-sector vision">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">06</span> · Public-sector vision</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">A sovereign platform European governments could adopt.</h2>
+      <p class="lead reveal d2">AULA proved that a national parent-educator platform works, and that sovereignty is the missing piece. KinderGuard is designed, from the architecture up, to be the version a public authority can stand behind.</p>
+      <div class="pub-grid" style="margin-top:34px">
+        <div class="pub reveal d2"><span class="ic">🏛️</span><h3>Ready for the state</h3><p>Multi-tenant isolation, EU residency and a signed DPA are the prerequisites public procurement demands, and they are already in place.</p></div>
+        <div class="pub reveal d3"><span class="ic">🌍</span><h3>The gap AULA left open</h3><p>Every European country needs sovereign childcare communication, and none has a genuinely EU-hosted option. The continent-wide opportunity reaches the public sector, well beyond private centers.</p></div>
+        <div class="pub reveal d4"><span class="ic">🛡️</span><h3>Protect the youngest first</h3><p>Start where data is most sensitive, in early childhood, then extend the same sovereign model upward into schools.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · WHY NOW -->
+  <section class="dark" id="why" data-label="Why now">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">07</span> · Why now</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Five tailwinds, all blowing the same way.</h2>
+      <div class="why-grid" style="margin-top:34px">
+        <div class="why reveal d2"><span class="ic">⚖️</span><h3>GDPR enforcement tightening</h3><p>Regulators increasingly reject US-cloud arrangements for children's data, exactly as Denmark did.</p></div>
+        <div class="why reveal d2"><span class="ic">🇪🇺</span><h3>EU funding sovereignty</h3><p>Digital sovereignty is now a stated European strategic priority, with public money and programmes behind it.</p></div>
+        <div class="why reveal d3"><span class="ic">🛡️</span><h3>Backlash against data harvesting</h3><p>Parents and institutions are done with Big Tech monetizing their children's lives.</p></div>
+        <div class="why reveal d3"><span class="ic">📵</span><h3>Smartphone-free childhood</h3><p>A movement toward intentional, protected childhood makes the dedicated, private platform the trusted choice.</p></div>
+        <div class="why reveal d4"><span class="ic">🤖</span><h3>AI changes the math</h3><p>AI lets one engineer build and maintain enterprise-grade, sovereign software that used to need a full team.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · WHERE WE ARE (HONEST) -->
+  <section class="tint" id="status" data-label="Where we are">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">08</span> · Where we are, honestly</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">A working demo, seeking support to reach production-readiness.</h2>
+      <div class="status-grid" style="margin-top:34px">
+        <div>
+          <div class="demo-banner reveal d1">⚙️ Working DEMO · not yet production-hardened</div>
+          <p class="lead reveal d2" style="margin-top:0">KinderGuard is a polished, clickable demo across all three portals, usable today. It is <b>not yet production-ready</b>: a handful of known bugs remain. They're straightforward fixes that just need a human's focused, uninterrupted time. EDIH support is precisely what buys that time.</p>
+          <div class="check-list" style="margin-top:22px">
+            <div class="ci done reveal d2"><span class="ic">✓</span><div><b>Working demo across all three portals</b> for parents, educators and directors.</div></div>
+            <div class="ci done reveal d2"><span class="ic">✓</span><div><b>Sovereignty stack already built & documented</b>: RLS isolation, live DPA, EU residency.</div></div>
+            <div class="ci done reveal d3"><span class="ic">✓</span><div><b>284 automated tests</b> guarding the core.</div></div>
+            <div class="ci next reveal d4"><span class="ic">→</span><div><b>Next:</b> harden the demo into production, fix the known bugs, and reach the first pilots.</div></div>
+          </div>
+        </div>
+        <div class="reveal d3">
+          <div class="status-ribbon">
+            <p class="big">The hard part is done. <span class="hl">What's left is focused time</span> and the right support to get there.</p>
+            <p>Pre-revenue, pre-pilot. The architecture, the sovereignty work and the UX that usually take a team and a year already exist. KinderGuard is honest about its stage, and that honesty is exactly why structured EDIH support fits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · FOUNDER -->
+  <section id="founder" data-label="Founder">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">09</span> · Founder</span>
+      <div class="eyebrow-line reveal"></div>
+      <div class="founder" style="margin-top:30px">
+        <div class="ava reveal d2"><span class="mono">A</span></div>
+        <div class="reveal d2">
+          <blockquote>"I spent a decade preventing defects and protecting systems in production. Now I'm applying that to protecting children's data."</blockquote>
+          <p class="role-line"><b>Solo founder · 10+ years as a Quality & Platform engineer.</b> A career spent stopping bugs from reaching users and keeping production systems safe, which is the exact discipline a sovereign children's-data platform demands.</p>
+          <p class="role-line" style="margin-top:12px">A <b>father of two</b> who lived under AULA in Denmark, valued the one-channel calm it gave families, and saw firsthand the sovereignty gap it never solved.</p>
+          <div class="honest reveal d3">Honest about the gap: the founder is an engineer first, and is seeking structured support to become investment- and grant-ready. That business-side faculty is what the project needs next.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · THE ASK = EDIH SUPPORT -->
+  <section class="ask" id="ask" data-label="EDIH support">
+    <div class="wrap">
+      <span class="kicker reveal" style="color:var(--teal)">10 · How an EDIH can help</span>
+      <h2 class="title reveal d1" style="color:#fff">We're seeking EDIH support to become investment- and grant-ready.</h2>
+      <p class="lead reveal d2" style="color:rgba(231,238,250,.84)">This is a partnership ask rather than a capital ask. KinderGuard has the technology and the mission; what it needs is the Digital Innovation Hub's start-up support services to convert a sovereign working demo into a fundable, production-ready European platform.</p>
+      <div class="uses reveal d3">
+        <div class="use"><div class="n">01</div><h3>Investment-readiness consulting</h3><p>Business-model validation, financials and pitch support that build the GTM and commercial faculty an engineer-founder doesn't yet have.</p></div>
+        <div class="use"><div class="n">02</div><h3>Funding-application preparation</h3><p>Guidance to position KinderGuard for EU and national grant instruments aligned with digital sovereignty and data protection.</p></div>
+        <div class="use"><div class="n">03</div><h3>Path to first pilots</h3><p>Support reaching the first pilot kindergartens, turning a proven demo into validated, real-world deployments.</p></div>
+      </div>
+      <div class="closing reveal d4">A working, sovereign demo, built right and hosted in Europe, <span class="hl">seeking the support to reach production-readiness and serve Europe's children.</span></div>
+      <p class="contact reveal d4"><a href="mailto:alex.radulescu@pm.me">alex.radulescu@pm.me</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span class="brandmark"><span class="glyph">K</span> KinderGuard</span>
+      <span>KinderGuard · <a href="mailto:alex.radulescu@pm.me">alex.radulescu@pm.me</a></span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var progress = document.getElementById('progress');
+  var topbar = document.getElementById('topbar');
+  var dotsWrap = document.getElementById('dots');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  sections.forEach(function(sec, i){
+    var b = document.createElement('button');
+    b.title = sec.getAttribute('data-label') || ('Section ' + (i+1));
+    b.setAttribute('aria-label', b.title);
+    if(sec.classList.contains('dark') || sec.classList.contains('hero') || sec.classList.contains('ask')) b.classList.add('on-dark');
+    b.addEventListener('click', function(){ sec.scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}); });
+    dotsWrap.appendChild(b);
+  });
+  var dotBtns = Array.prototype.slice.call(dotsWrap.children);
+
+  function onScroll(){
+    var st = deck.scrollTop;
+    var max = deck.scrollHeight - deck.clientHeight;
+    progress.style.width = (max>0 ? (st/max*100) : 0) + '%';
+    if(st > 24) topbar.classList.add('scrolled'); else topbar.classList.remove('scrolled');
+  }
+  deck.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if('IntersectionObserver' in window){
+    var secObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var idx = sections.indexOf(e.target);
+          dotBtns.forEach(function(d,i){ d.classList.toggle('active', i===idx); });
+        }
+      });
+    }, {root: deck, threshold:0.5});
+    sections.forEach(function(s){ secObs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

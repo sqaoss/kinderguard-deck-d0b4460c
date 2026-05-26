@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>KinderGuard · Pitch Deck</title>
+<meta name="description" content="KinderGuard: a private, EU-sovereign platform for childcare. Everything parents loved about AULA. None of the US cloud." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#0a1f44;          /* deep navy */
+    --navy-2:#0c2752;
+    --blue:#1b3fae;          /* EU blue */
+    --blue-soft:#2f54c9;
+    --teal:#14b8a6;          /* emerald/teal accent */
+    --teal-deep:#0e9384;
+    --warm:#f6a821;          /* one warm human accent */
+    --warm-soft:#ffcd6b;
+    --paper:#f7f5f0;         /* warm off-white */
+    --paper-2:#fffdf8;
+    --ink:#0a1124;
+    --ink-soft:#3a4259;
+    --line:rgba(10,31,68,.10);
+    --card:#ffffff;
+    --radius:18px;
+    --maxw:1180px;
+    --shadow-lg:0 30px 70px -28px rgba(10,31,68,.45);
+    --shadow-md:0 18px 44px -22px rgba(10,31,68,.4);
+    --font-head:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{font-family:var(--font-head);line-height:1.08;margin:0;letter-spacing:-.02em;font-weight:700}
+  p{margin:0}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+
+  /* ---------- Scroll container ---------- */
+  .deck{
+    height:100vh;height:100dvh;
+    overflow-y:scroll;
+    scroll-padding-top:0;
+  }
+  section{
+    min-height:100vh;min-height:100dvh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:84px clamp(20px,5vw,72px) 72px;
+    position:relative;
+  }
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto}
+
+  /* ---------- Top progress + dots ---------- */
+  .progress{
+    position:fixed;top:0;left:0;height:3px;width:0%;
+    background:linear-gradient(90deg,var(--teal),var(--warm));
+    z-index:120;transition:width .15s ease-out;
+  }
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:54px;z-index:110;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 clamp(16px,4vw,40px);
+    background:rgba(247,245,240,.0);
+    transition:background .3s,backdrop-filter .3s,box-shadow .3s;
+  }
+  .topbar.scrolled{background:rgba(247,245,240,.82);backdrop-filter:saturate(160%) blur(12px);box-shadow:0 1px 0 var(--line)}
+  .brandmark{display:flex;align-items:center;gap:9px;font-family:var(--font-head);font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--navy)}
+  .brandmark .glyph{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;font-size:13px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.14)}
+  .topbar .cta{font-family:var(--font-body);font-weight:600;font-size:13px;color:var(--navy);text-decoration:none;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:transform .15s,box-shadow .2s}
+  .topbar .cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+
+  .dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:115;display:flex;flex-direction:column;gap:11px}
+  .dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;cursor:pointer;background:rgba(10,31,68,.22);transition:transform .2s,background .2s}
+  .dots button:hover{background:rgba(10,31,68,.45)}
+  .dots button.active{background:var(--teal);transform:scale(1.45)}
+  .dots button.on-dark{background:rgba(255,255,255,.3)}
+  .dots button.on-dark.active{background:var(--warm)}
+
+  /* ---------- Typography helpers ---------- */
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep)}
+  .kicker .num{font-variant-numeric:tabular-nums;color:var(--blue);opacity:.85}
+  section.dark .kicker{color:var(--teal)}
+  section.dark .kicker .num{color:var(--warm-soft)}
+  h2.title{font-size:clamp(28px,4.4vw,52px);font-weight:800;margin-top:18px;max-width:18ch}
+  .lead{font-size:clamp(16px,1.7vw,20px);color:var(--ink-soft);max-width:62ch;margin-top:20px;line-height:1.6}
+  section.dark .lead{color:rgba(233,238,248,.82)}
+  .eyebrow-line{width:54px;height:3px;border-radius:2px;background:var(--warm);margin-top:6px}
+
+  /* ---------- Sections: dark vs light ---------- */
+  section.dark{background:radial-gradient(120% 120% at 12% 0%,var(--navy-2) 0%,var(--navy) 55%,#071734 100%);color:#eaf0fb}
+  section.dark h2.title{color:#fff}
+  section.tint{background:linear-gradient(180deg,#fff 0%,var(--paper) 100%)}
+
+  /* ---------- HERO ---------- */
+  .hero{background:radial-gradient(130% 120% at 80% -10%,#13357f 0%,var(--navy) 48%,#06122b 100%);color:#fff;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(40% 50% at 88% 18%,rgba(20,184,166,.28),transparent 70%),
+      radial-gradient(36% 44% at 10% 92%,rgba(246,168,33,.16),transparent 70%);
+    pointer-events:none}
+  .hero .wrap{position:relative;z-index:2}
+  .hero .stars{position:absolute;inset:0;opacity:.5;z-index:1;background-image:radial-gradient(1.4px 1.4px at 20% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1.2px 1.2px at 70% 60%,rgba(255,255,255,.35),transparent),radial-gradient(1.1px 1.1px at 40% 80%,rgba(255,255,255,.3),transparent),radial-gradient(1.3px 1.3px at 88% 42%,rgba(255,255,255,.4),transparent)}
+  .flag-chip{display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);font-size:12.5px;font-weight:600;letter-spacing:.04em;backdrop-filter:blur(6px)}
+  .flag-chip .eu{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--blue);color:var(--warm-soft);font-size:11px}
+  .hero h1{font-size:clamp(46px,9vw,116px);font-weight:800;letter-spacing:-.04em;margin-top:22px;line-height:.95}
+  .hero h1 .k{color:#fff}
+  .hero .tag{font-family:var(--font-head);font-weight:700;font-size:clamp(20px,3.1vw,38px);margin-top:26px;letter-spacing:-.02em;max-width:20ch}
+  .hero .tag .hl{background:linear-gradient(120deg,var(--teal) 0%,var(--warm) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:clamp(16px,1.8vw,20px);color:rgba(231,238,250,.82);max-width:60ch;margin-top:22px;line-height:1.6}
+  .hero .row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-head);font-weight:600;font-size:15px;text-decoration:none;padding:14px 24px;border-radius:999px;transition:transform .15s,box-shadow .25s,background .2s}
+  .btn-primary{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#fff;box-shadow:0 16px 36px -14px rgba(20,184,166,.7)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 22px 46px -14px rgba(20,184,166,.85)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.2)}
+  .btn-ghost:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:30px 52px;margin-top:48px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
+  .hero-stats .s b{display:block;font-family:var(--font-head);font-weight:800;font-size:clamp(22px,2.6vw,30px);color:#fff;letter-spacing:-.02em}
+  .hero-stats .s span{font-size:13px;color:rgba(231,238,250,.62);letter-spacing:.02em}
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2}
+  .scrollcue .mouse{width:22px;height:34px;border:1.5px solid rgba(255,255,255,.4);border-radius:12px;position:relative}
+  .scrollcue .mouse::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:6px;border-radius:2px;background:rgba(255,255,255,.7);animation:wheel 1.6s ease-in-out infinite}
+  @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}60%{opacity:1}100%{opacity:0;transform:translate(-50%,9px)}}
+
+  /* ---------- Generic grid ---------- */
+  .grid{display:grid;gap:22px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .split{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+  .split.rev{grid-template-columns:1fr 1.05fr}
+
+  /* ---------- Cards ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-md)}
+  section.dark .card{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);box-shadow:none;backdrop-filter:blur(4px)}
+  .card .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(27,63,174,.12),rgba(20,184,166,.16));color:var(--blue);margin-bottom:16px}
+  section.dark .card .ico{background:rgba(20,184,166,.16);color:var(--teal)}
+  .card h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+  .card p{font-size:14.5px;color:var(--ink-soft);line-height:1.55}
+  section.dark .card p{color:rgba(231,238,250,.78)}
+  section.dark .card h3{color:#fff}
+
+  .pillrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .pill{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;background:rgba(20,184,166,.12);color:var(--teal-deep);border:1px solid rgba(20,184,166,.22)}
+  section.dark .pill{background:rgba(20,184,166,.16);color:var(--teal);border-color:rgba(20,184,166,.3)}
+
+  /* ---------- Browser & phone frames ---------- */
+  .browser{border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-lg);width:100%}
+  .browser .bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:linear-gradient(180deg,#f4f5f8,#eceef3);border-bottom:1px solid rgba(10,31,68,.08)}
+  .browser .dot{width:11px;height:11px;border-radius:50%}
+  .browser .dot.r{background:#ff5f57}.browser .dot.y{background:#febc2e}.browser .dot.g{background:#28c840}
+  .browser .url{flex:1;margin-left:10px;font-size:11.5px;color:#6a7488;background:#fff;border:1px solid rgba(10,31,68,.08);border-radius:7px;padding:5px 12px;display:flex;align-items:center;gap:7px;font-family:var(--font-body)}
+  .browser .url svg{flex:none;opacity:.7}
+  .browser .shot{display:block;width:100%;height:auto;background:#f7f7f9}
+  .browser.tall .shot{max-height:560px;object-fit:cover;object-position:top}
+  .frame-cap{font-size:13px;color:var(--ink-soft);margin-top:14px;text-align:center}
+  section.dark .frame-cap{color:rgba(231,238,250,.7)}
+
+  .phone{width:248px;max-width:60vw;border-radius:38px;background:#0a1124;padding:11px;box-shadow:var(--shadow-lg),0 0 0 1px rgba(10,31,68,.2);position:relative;flex:none}
+  .phone::before{content:"";position:absolute;top:17px;left:50%;transform:translateX(-50%);width:88px;height:22px;background:#0a1124;border-radius:0 0 14px 14px;z-index:3}
+  .phone .scr{border-radius:28px;overflow:hidden;background:#fff;aspect-ratio:1170/2532}
+  .phone .scr img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .phones{display:flex;justify-content:center;gap:clamp(10px,2.5vw,30px);flex-wrap:wrap}
+  .phones .phone:nth-child(1){transform:translateY(14px) rotate(-3deg)}
+  .phones .phone:nth-child(2){z-index:2}
+  .phones .phone:nth-child(3){transform:translateY(14px) rotate(3deg)}
+
+  /* ---------- Product role tabs ---------- */
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+  .role{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-md)}
+  .role .tag2{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:700;font-size:13px;letter-spacing:.02em;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+  .role.parents .tag2{background:rgba(246,168,33,.16);color:#a96d05}
+  .role.educators .tag2{background:rgba(20,184,166,.14);color:var(--teal-deep)}
+  .role.directors .tag2{background:rgba(27,63,174,.12);color:var(--blue)}
+  .role h3{font-size:16px;margin-bottom:8px}
+  .role ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:14px;line-height:1.7}
+  .role ul li{margin-bottom:3px}
+
+  /* ---------- AULA quote ---------- */
+  .quote-wrap{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-left:4px solid var(--warm);border-radius:14px;padding:28px 30px}
+  .quote-wrap .q{font-family:var(--font-head);font-weight:600;font-size:clamp(20px,2.5vw,30px);line-height:1.28;color:#fff;letter-spacing:-.01em}
+  .quote-wrap .q .hl{color:var(--warm-soft)}
+  .quote-wrap .cite{margin-top:16px;font-size:14px;color:rgba(231,238,250,.7)}
+  .quote-wrap .cite b{color:#fff;font-weight:600}
+  .timeline-aula{display:grid;gap:16px;margin-top:8px}
+  .step{display:flex;gap:16px;align-items:flex-start}
+  .step .n{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:14px;background:rgba(20,184,166,.16);color:var(--teal)}
+  .step h4{font-size:16px;color:#fff;margin-bottom:4px;font-weight:600}
+  .step p{font-size:14px;color:rgba(231,238,250,.76);line-height:1.55}
+
+  /* ---------- Sovereignty rail ---------- */
+  .sov-list{display:grid;gap:14px;margin-top:6px}
+  .sov-item{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:16px 18px}
+  .sov-item .chk{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#fff;font-size:14px}
+  .sov-item b{display:block;color:#fff;font-weight:600;font-size:15px;margin-bottom:2px}
+  .sov-item span{font-size:13.5px;color:rgba(231,238,250,.74);line-height:1.5}
+  .never-badge{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:11px 18px;border-radius:999px;background:rgba(246,168,33,.12);border:1px solid rgba(246,168,33,.3);color:var(--warm-soft);font-weight:600;font-size:14px}
+
+  /* ---------- Market TAM/SAM/SOM ---------- */
+  .market-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:end;margin-top:10px}
+  .mcol{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+  .mcol .ring{position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;opacity:.1}
+  .mcol .lbl{font-family:var(--font-head);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+  .mcol.som{border-top:4px solid var(--teal)}.mcol.som .lbl{color:var(--teal-deep)}.mcol.som .ring{background:var(--teal)}
+  .mcol.sam{border-top:4px solid var(--blue)}.mcol.sam .lbl{color:var(--blue)}.mcol.sam .ring{background:var(--blue)}
+  .mcol.tam{border-top:4px solid var(--warm)}.mcol.tam .lbl{color:#a96d05}.mcol.tam .ring{background:var(--warm)}
+  .mcol .big{font-family:var(--font-head);font-weight:800;font-size:clamp(26px,3.4vw,40px);margin:14px 0 4px;letter-spacing:-.02em;color:var(--ink)}
+  .mcol .desc{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+  .mcol .sc{font-size:12px;color:#8b93a6;margin-top:10px;letter-spacing:.04em}
+  .market-frame{margin-top:24px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:16px;padding:22px 26px;font-family:var(--font-head);font-weight:600;font-size:clamp(15px,1.8vw,19px);line-height:1.45;letter-spacing:-.01em}
+  .market-frame .hl{color:var(--warm-soft)}
+  .footnote{font-size:11.5px;color:#8b93a6;margin-top:16px;line-height:1.5;max-width:90ch}
+  section.dark .footnote{color:rgba(231,238,250,.55)}
+
+  /* ---------- Pricing ---------- */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px}
+  .ptier{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:var(--shadow-md);text-align:center;position:relative}
+  .ptier.feat{border:1.5px solid var(--teal);box-shadow:0 22px 50px -22px rgba(20,184,166,.5);transform:translateY(-6px)}
+  .ptier .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 12px;border-radius:999px;text-transform:uppercase}
+  .ptier h3{font-size:15px;color:var(--ink-soft);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+  .ptier .amt{font-family:var(--font-head);font-weight:800;font-size:42px;margin:10px 0 2px;color:var(--navy);letter-spacing:-.03em}
+  .ptier .amt sup{font-size:20px;font-weight:700;vertical-align:super;color:var(--ink-soft)}
+  .ptier .per{font-size:13px;color:var(--ink-soft)}
+  .ptier .who{font-size:13.5px;color:var(--ink-soft);margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .biz-extra{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+  .biz-extra .card h3{display:flex;align-items:center;gap:9px}
+
+  /* ---------- GTM steps ---------- */
+  .gtm{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:10px;position:relative}
+  .gtm .stage{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow-md)}
+  .gtm .stage .arrow{font-family:var(--font-head);font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-deep)}
+  .gtm .stage.b2g .arrow{color:var(--blue)}
+  .gtm .stage.k12 .arrow{color:#a96d05}
+  .gtm .stage h3{font-size:19px;margin:10px 0 8px}
+  .gtm .stage p{font-size:14px;color:var(--ink-soft);line-height:1.55}
+
+  /* ---------- Honest status ---------- */
+  .status-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,48px);align-items:center}
+  .demo-banner{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(246,168,33,.16);border:1px solid rgba(246,168,33,.35);color:#a96d05;font-weight:600;font-size:13.5px;margin-bottom:18px}
+  section.dark .demo-banner{background:rgba(246,168,33,.14);color:var(--warm-soft);border-color:rgba(246,168,33,.3)}
+  .check-list{display:grid;gap:12px;margin-top:4px}
+  .check-list .ci{display:flex;gap:13px;align-items:flex-start;font-size:15px}
+  .check-list .ci .ic{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:13px}
+  .ci.done .ic{background:rgba(20,184,166,.16);color:var(--teal-deep)}
+  .ci.next .ic{background:rgba(246,168,33,.18);color:#a96d05}
+  section.dark .ci.done .ic{color:var(--teal)}
+  section.dark .check-list .ci{color:rgba(231,238,250,.88)}
+  .ci b{font-weight:600}
+  .status-ribbon{background:linear-gradient(135deg,var(--navy),#13357f);color:#fff;border-radius:16px;padding:26px;box-shadow:var(--shadow-lg)}
+  .status-ribbon .big{font-family:var(--font-head);font-weight:800;font-size:clamp(22px,2.6vw,30px);letter-spacing:-.02em;line-height:1.15}
+  .status-ribbon .big .hl{color:var(--warm-soft)}
+  .status-ribbon p{font-size:14.5px;color:rgba(231,238,250,.84);margin-top:14px;line-height:1.6}
+
+  /* ---------- Why now ---------- */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px}
+  .why{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px}
+  .why .ic{font-size:22px;margin-bottom:10px;display:block}
+  .why h3{font-size:16px;color:#fff;margin-bottom:6px}
+  .why p{font-size:13.5px;color:rgba(231,238,250,.76);line-height:1.5}
+
+  /* ---------- Founder ---------- */
+  .founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,4vw,56px);align-items:center}
+  .founder .ava{aspect-ratio:1;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,#13357f,var(--navy));display:grid;place-items:center;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+  .founder .ava .mono{font-family:var(--font-head);font-weight:800;font-size:clamp(60px,11vw,120px);color:rgba(255,255,255,.92);letter-spacing:-.04em}
+  .founder .ava::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 80% 90%,rgba(20,184,166,.4),transparent 70%)}
+  .founder blockquote{font-family:var(--font-head);font-weight:600;font-size:clamp(19px,2.3vw,27px);line-height:1.3;letter-spacing:-.01em;margin:0 0 18px}
+  .founder .role-line{font-size:15px;color:var(--ink-soft);line-height:1.65}
+  .founder .role-line b{color:var(--ink)}
+  .founder .honest{margin-top:18px;font-size:14px;color:var(--ink-soft);background:rgba(27,63,174,.06);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+
+  /* ---------- Ask / final ---------- */
+  .ask{background:radial-gradient(120% 130% at 50% 0%,#13357f 0%,var(--navy) 50%,#06122b 100%);color:#fff;text-align:center}
+  .ask::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 50% at 50% 120%,rgba(20,184,166,.25),transparent 70%);pointer-events:none}
+  .ask .wrap{position:relative;z-index:2}
+  .ask .amount{font-family:var(--font-head);font-weight:800;font-size:clamp(54px,11vw,128px);letter-spacing:-.04em;line-height:.95;background:linear-gradient(120deg,#fff 0%,var(--teal) 60%,var(--warm) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ask .amount-cap{font-family:var(--font-head);font-weight:600;font-size:clamp(16px,2vw,22px);color:rgba(231,238,250,.86);margin-top:6px}
+  .ask .uses{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:840px;margin:42px auto 0}
+  .ask .use{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:22px;text-align:left}
+  .ask .use .n{font-family:var(--font-head);font-weight:800;color:var(--teal);font-size:15px;letter-spacing:.06em}
+  .ask .use h3{font-size:16px;margin:8px 0 6px;color:#fff}
+  .ask .use p{font-size:13.5px;color:rgba(231,238,250,.78);line-height:1.5}
+  .ask .contact{margin-top:42px;font-size:clamp(17px,2.2vw,22px);font-family:var(--font-head);font-weight:600}
+  .ask .contact a{color:var(--warm-soft);text-decoration:none;border-bottom:2px solid rgba(246,168,33,.4);transition:border-color .2s}
+  .ask .contact a:hover{border-color:var(--warm)}
+
+  /* ---------- Footer ---------- */
+  footer{background:#06122b;color:rgba(231,238,250,.6);padding:30px clamp(20px,5vw,72px);font-size:13.5px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;max-width:var(--maxw);margin:0 auto}
+  footer .brandmark{color:#fff}
+  footer a{color:var(--teal);text-decoration:none}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:920px){
+    .split,.split.rev,.founder,.status-grid{grid-template-columns:1fr}
+    .split.rev .browser-col{order:-1}
+    .g3,.g4,.roles,.why-grid,.gtm,.price-grid,.market-cols,.ask .uses,.biz-extra{grid-template-columns:1fr}
+    .g2{grid-template-columns:1fr}
+    .dots{display:none}
+    section{padding:80px clamp(18px,5vw,40px) 60px}
+    .ptier.feat{transform:none}
+    .market-cols{gap:14px}
+  }
+  @media (max-width:560px){
+    section{min-height:auto;padding:74px 18px 48px}
+    .hero-stats{gap:20px 30px}
+    .phones{gap:8px}
+    .phone{width:200px}
+    .phones .phone:nth-child(1),.phones .phone:nth-child(3){transform:none;rotate:0deg}
+    h2.title{font-size:30px}
+    .roles{gap:14px}
+    .topbar .cta{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+  /* Offline / no-Google-Fonts fallback handled by font stacks above */
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="topbar" id="topbar">
+  <a href="#hero" class="brandmark"><span class="glyph">K</span> KinderGuard</a>
+  <a href="#ask" class="cta">The ask →</a>
+</header>
+<nav class="dots" id="dots" aria-label="Section navigation"></nav>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · HERO -->
+  <section class="hero" id="hero" data-label="Intro">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="flag-chip reveal"><span class="eu">★</span> EU-sovereign · built in Europe, for Europe</span>
+      <h1 class="reveal d1"><span class="k">KinderGuard</span></h1>
+      <p class="tag reveal d2">Everything parents loved about AULA. <span class="hl">None of the US cloud.</span></p>
+      <p class="sub reveal d3">A private, EU-sovereign platform for childcare. Parents, educators and directors finally connect in one place, and every byte of children's data stays in Europe.</p>
+      <div class="row reveal d4">
+        <a href="#product" class="btn btn-primary">See the product →</a>
+        <a href="#sovereign" class="btn btn-ghost">Why sovereign?</a>
+      </div>
+      <div class="hero-stats reveal d5">
+        <div class="s"><b>3 portals</b><span>Parents · Educators · Directors</span></div>
+        <div class="s"><b>100% EU</b><span>Scaleway (FR) · Neon (EU)</span></div>
+        <div class="s"><b>284</b><span>automated tests</span></div>
+        <div class="s"><b>€0</b><span>data ever monetized</span></div>
+      </div>
+    </div>
+    <div class="scrollcue" aria-hidden="true"><span class="mouse"></span>Scroll</div>
+  </section>
+
+  <!-- 2 · PROBLEM -->
+  <section class="tint" id="problem" data-label="Problem">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">01</span> · The problem</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Children's most sensitive data is running through Big Tech.</h2>
+      <p class="lead reveal d2">Kindergartens run on WhatsApp groups and generic apps never built for them. Photos, health notes, allergies, where a child is at any hour: their entire day flows through platforms built to monetize attention and data.</p>
+      <div class="grid g3" style="margin-top:38px">
+        <div class="card reveal d2">
+          <div class="ico">⚠️</div>
+          <h3>Sensitive data, wrong pipes</h3>
+          <p>Photos, allergies, pick-up times and health notes pass through consumer apps designed to harvest data for ad targeting.</p>
+        </div>
+        <div class="card reveal d3">
+          <div class="ico">💬</div>
+          <h3>No private line to the day</h3>
+          <p>Parents have no dedicated, private channel to their child's educator. They get noisy group chats that mix logistics, photos and chit-chat.</p>
+        </div>
+        <div class="card reveal d4">
+          <div class="ico">🧩</div>
+          <h3>Disconnected tools</h3>
+          <p>Educators and directors juggle spreadsheets, paper sign-in sheets and a half-dozen apps that don't talk to each other.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · AULA proof + gap -->
+  <section class="dark" id="aula" data-label="The AULA proof">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">02</span> · Proof it can be better</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">A whole country already proved parents want this.</h2>
+      <div class="split" style="margin-top:36px">
+        <div>
+          <div class="timeline-aula">
+            <div class="step reveal d2"><div class="n">1</div><div><h4>Denmark built AULA</h4><p>A dedicated national parent-educator platform. One channel for the whole relationship. No WhatsApp. Parents loved it, and it became how families and schools communicate nationwide.</p></div></div>
+            <div class="step reveal d3"><div class="n">2</div><div><h4>But AULA runs on AWS</h4><p>Even this flagship public platform sits on US-owned cloud infrastructure, and that became the problem.</p></div></div>
+            <div class="step reveal d4"><div class="n">3</div><div><h4>The regulator refused</h4><p>Denmark's own data authority, <b>Datatilsynet</b>, declined to approve the arrangement over fears that US authorities could compel access to children's data.</p></div></div>
+          </div>
+        </div>
+        <div class="reveal d3">
+          <div class="quote-wrap">
+            <p class="q">Amazon's guarantees that children's data is safe from US authorities were <span class="hl">"pure theater."</span></p>
+            <p class="cite"><b>David Heinemeier Hansson</b> (creator of Ruby on Rails), on the AULA / AWS arrangement.<br>Reported by <b>radar.dk</b>, 2023.</p>
+          </div>
+          <div class="never-badge" style="margin-top:24px">The demand is proven. A genuinely sovereign version still doesn't exist.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · SOLUTION / PRODUCT -->
+  <section class="tint" id="product" data-label="Product">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">03</span> · The solution</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">One private platform. Three role-built experiences.</h2>
+      <p class="lead reveal d2">Great UX for everyone in a child's day, because the relationship between parents and educators is the product. Directors finally get real management tools too.</p>
+
+      <div class="roles reveal d2" style="margin-top:34px">
+        <div class="role parents">
+          <span class="tag2">👨‍👩‍👧 Parents</span>
+          <h3>The whole day, privately</h3>
+          <ul><li>Real-time chat with educators</li><li>Their child's day: meals, naps, play</li><li>Calendar & event RSVPs</li><li>Announcements that matter</li></ul>
+        </div>
+        <div class="role educators">
+          <span class="tag2">🍎 Educators</span>
+          <h3>Less admin, more presence</h3>
+          <ul><li>Fast attendance & check-in</li><li>Activity logging with photos</li><li>Announcements to families</li><li>One conversation inbox</li></ul>
+        </div>
+        <div class="role directors">
+          <span class="tag2">🏫 Directors</span>
+          <h3>Run the whole center</h3>
+          <ul><li>Live management dashboard</li><li>Settings & GDPR controls</li><li>Tablet kiosk check-in</li><li>10 themes, dark mode, kiosk</li></ul>
+        </div>
+      </div>
+
+      <div class="split" style="margin-top:46px">
+        <div class="browser-col reveal d2">
+          <div class="browser">
+            <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="url"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 10V8a6 6 0 1112 0v2" stroke="#6a7488" stroke-width="2"/><rect x="4" y="10" width="16" height="11" rx="2" fill="#6a7488"/></svg>kinderguard.ro · Educator</span></div>
+            <img class="shot" src="assets/educator-01-dashboard.png" alt="Educator dashboard showing classes and recent announcements" loading="lazy" />
+          </div>
+          <p class="frame-cap">Educators: classes at a glance, one click to attendance, activities or photos.</p>
+        </div>
+        <div class="reveal d3">
+          <div class="browser">
+            <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="url"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 10V8a6 6 0 1112 0v2" stroke="#6a7488" stroke-width="2"/><rect x="4" y="10" width="16" height="11" rx="2" fill="#6a7488"/></svg>kinderguard.ro · Parent</span></div>
+            <img class="shot" src="assets/parent-03-chat-thread.png" alt="Parent chat thread with their child's educator" loading="lazy" />
+          </div>
+          <p class="frame-cap">Parents: a private, direct line to their child's educator, not another group chat.</p>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:30px">
+        <div class="reveal d2">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Activity logging</span></div><img class="shot" src="assets/educator-03-activities.png" alt="Educator logging an activity with type, time and photo" loading="lazy" /></div>
+        </div>
+        <div class="reveal d3">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Attendance</span></div><img class="shot" src="assets/educator-02-attendance.png" alt="Educator attendance grid with check-in per child" loading="lazy" /></div>
+        </div>
+        <div class="reveal d4">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Announcements</span></div><img class="shot" src="assets/parent-06-announcements.png" alt="Parent announcements feed" loading="lazy" /></div>
+        </div>
+      </div>
+
+      <div style="margin-top:48px">
+        <h3 style="font-family:var(--font-head);font-weight:700;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.02em" class="reveal">Parents live on their phone. So does KinderGuard.</h3>
+        <p class="lead reveal d1" style="margin-top:12px">The child's day, the timeline, and the educator chat, all in the pocket.</p>
+        <div class="phones reveal d2" style="margin-top:30px">
+          <div class="phone"><div class="scr"><img src="assets/parent-mobile-01-feed.png" alt="Parent mobile dashboard showing their children" loading="lazy" /></div></div>
+          <div class="phone"><div class="scr"><img src="assets/parent-mobile-02-timeline.png" alt="Parent mobile activity timeline" loading="lazy" /></div></div>
+          <div class="phone"><div class="scr"><img src="assets/parent-mobile-03-chat.png" alt="Parent mobile chat with educator" loading="lazy" /></div></div>
+        </div>
+      </div>
+
+      <div class="split" style="margin-top:48px">
+        <div class="browser-col reveal d2">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Director · 10 themes + dark mode + kiosk</span></div><img class="shot" src="assets/admin-10-theme-picker.png" alt="Admin theme picker with 10 themes and dark mode over the guest kiosk page" loading="lazy" /></div>
+          <p class="frame-cap">Directors: white-label theming, dark mode, and a tablet kiosk for wall-mounted check-in.</p>
+        </div>
+        <div class="reveal d3">
+          <div class="browser"><div class="bar"><span class="dot r" style="background:#ff5f57"></span><span class="dot y"></span><span class="dot g"></span><span class="url" style="background:#16202e;color:#9fb0c6;border-color:rgba(255,255,255,.08)">Director · dark mode dashboard</span></div><img class="shot" src="assets/admin-11-dashboard-dark.png" alt="Admin dashboard in dark mode with center metrics" loading="lazy" /></div>
+          <p class="frame-cap">A real management cockpit: children, parents, educators and attendance, all live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · SOVEREIGN BY ARCHITECTURE -->
+  <section class="dark" id="sovereign" data-label="Sovereign by design">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">04</span> · The moat</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Built sovereign by architecture.</h2>
+      <p class="lead reveal d2">The market treats EU data residency as optional. <b style="color:#fff">We treat it as the product.</b> Children's data lives on European infrastructure. Never AWS, Azure or GCP.</p>
+      <div class="split" style="margin-top:36px">
+        <div>
+          <div class="sov-list">
+            <div class="sov-item reveal d2"><div class="chk">✓</div><div><b>EU-only infrastructure</b><span>Scaleway (France) · Neon (EU). Children's data never leaves European jurisdiction.</span></div></div>
+            <div class="sov-item reveal d2"><div class="chk">✓</div><div><b>Row-Level-Security isolation</b><span>Multi-tenant by design. Each center's data is cryptographically partitioned at the database layer.</span></div></div>
+            <div class="sov-item reveal d3"><div class="chk">✓</div><div><b>Signed Article 28 GDPR DPA</b><span>A live Data Processing Agreement with named EU sub-processors. It is signed and in force today.</span></div></div>
+            <div class="sov-item reveal d4"><div class="chk">✓</div><div><b>Granular consent controls</b><span>Parents decide who sees each photo: just me, educators, other parents, or administrators. Privacy ships as a real setting parents control.</span></div></div>
+          </div>
+          <div class="never-badge reveal d4">🚫 Zero data monetization. Ever.</div>
+        </div>
+        <div class="reveal d3">
+          <div class="browser"><div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">Settings · Photo visibility (GDPR)</span></div><img class="shot tall" src="assets/admin-07-settings.png" alt="Account settings showing per-audience photo visibility GDPR toggles" loading="lazy" /></div>
+          <p class="frame-cap">Per-audience photo-visibility toggles, with consent the parent controls.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · MARKET -->
+  <section class="tint" id="market" data-label="Market">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">05</span> · Market</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">An early, under-penetrated European category.</h2>
+      <div class="market-cols" style="margin-top:34px">
+        <div class="mcol som reveal d2"><div class="ring"></div><div class="lbl">SOM · Beachhead</div><div class="big">600-1,100</div><div class="desc">Private kindergartens & creșe in Romania, our validation beachhead.</div><div class="sc">Where we prove the model.</div></div>
+        <div class="mcol sam reveal d3"><div class="ring"></div><div class="lbl">SAM · Launch target</div><div class="big">€60-90M<span style="font-size:.5em;font-weight:600">/yr</span></div><div class="desc">~55,000-85,000 private kindergartens across the EU-27, at €89/center/mo (€100M+ with UK/EEA).</div><div class="sc">The revenue engine.</div></div>
+        <div class="mcol tam reveal d4"><div class="ring"></div><div class="lbl">TAM · B2G end-game</div><div class="big">€270M+<span style="font-size:.5em;font-weight:600">/yr</span></div><div class="desc">All European ECEC: 15.7M children across 250,000+ institutions.</div><div class="sc">Governments, at scale.</div></div>
+      </div>
+      <div class="market-frame reveal d3">The institution base alone is <span class="hl">€270M+ of annual addressable spend</span>, versus a <em>current</em> global childcare-software market of only ~$250-480M. An early, under-penetrated category waiting for a sovereign winner.</div>
+      <p class="footnote reveal d4">Latest available data 2023-2025 (Eurostat / OECD / INS / Destatis); center counts are derived estimates; revenue illustrative at €89/center.</p>
+    </div>
+  </section>
+
+  <!-- 7 · BUSINESS MODEL -->
+  <section id="model" data-label="Business model">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">06</span> · Business model</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Simple per-center subscription.</h2>
+      <p class="lead reveal d2">A free 3-month pilot to land the relationship, then a clean monthly price by center size. Annual plans pay 10, get 12.</p>
+      <div class="price-grid" style="margin-top:34px">
+        <div class="ptier reveal d2"><h3>Small</h3><div class="amt"><sup>€</sup>39</div><div class="per">per center / month</div><div class="who">Micro-creșe & small kindergartens</div></div>
+        <div class="ptier feat reveal d3"><span class="badge">Most centers</span><h3>Standard</h3><div class="amt"><sup>€</sup>89</div><div class="per">per center / month</div><div class="who">Typical private kindergartens, the SAM benchmark</div></div>
+        <div class="ptier reveal d4"><h3>Large</h3><div class="amt"><sup>€</sup>149</div><div class="per">per center / month</div><div class="who">Multi-class centers & small groups</div></div>
+      </div>
+      <div class="biz-extra">
+        <div class="card reveal d3"><h3>🎁 Free 3-month pilot</h3><p>No-risk entry. We earn the subscription by being indispensable for a full term. There are no lock-in contracts.</p></div>
+        <div class="card reveal d4"><h3>🏛️ B2G = custom contracts</h3><p>Public-sector adoption runs on tailored contracts. That is the upside that turns a per-center business into a national-platform business.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · GO TO MARKET -->
+  <section class="tint" id="gtm" data-label="Go-to-market">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">07</span> · Go-to-market</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Protect the youngest first, then expand upward.</h2>
+      <div class="gtm" style="margin-top:34px">
+        <div class="stage reveal d2"><span class="arrow">Land →</span><h3>Private kindergartens</h3><p>Across Europe. Romania is the validation beachhead; Europe is the revenue. Direct, founder-led sales into private centers.</p></div>
+        <div class="stage b2g reveal d3"><span class="arrow">Expand →</span><h3>Public kindergartens (B2G)</h3><p>Government tenders for sovereign childcare comms. This is exactly the gap AULA left open across the continent.</p></div>
+        <div class="stage k12 reveal d4"><span class="arrow">Then →</span><h3>Upward into K-12</h3><p>The same sovereign, relationship-first platform scales naturally into schools once trust is established at the youngest level.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · WHERE WE ARE (HONEST) -->
+  <section id="status" data-label="Where we are">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">08</span> · Where we are, honestly</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">A working demo. Built right. Pre-revenue.</h2>
+      <div class="status-grid" style="margin-top:34px">
+        <div>
+          <div class="demo-banner reveal d1">⚙️ Working DEMO · not yet production-hardened</div>
+          <p class="lead reveal d2" style="margin-top:0">It's a polished, clickable demo across all three portals, usable today. It is <b>not production-ready yet</b>: a handful of known bugs remain. They're straightforward fixes that just need a human's focused, uninterrupted time.</p>
+          <div class="check-list" style="margin-top:22px">
+            <div class="ci done reveal d2"><span class="ic">✓</span><div><b>Clickable demo across all three portals</b> for parents, educators and directors.</div></div>
+            <div class="ci done reveal d2"><span class="ic">✓</span><div><b>Sovereignty stack already built & documented</b>: RLS isolation, live DPA, EU residency.</div></div>
+            <div class="ci done reveal d3"><span class="ic">✓</span><div><b>284 automated tests</b> guarding the core.</div></div>
+            <div class="ci next reveal d4"><span class="ic">→</span><div><b>Next:</b> harden the demo into production, fix the known bugs, then land the first paying pilots.</div></div>
+          </div>
+        </div>
+        <div class="reveal d3">
+          <div class="status-ribbon">
+            <p class="big">Execution is proven. <span class="hl">Traction is the next milestone we have to earn.</span></p>
+            <p>Pre-revenue, pre-pilot. The architecture, the UX and the sovereignty work that usually takes a team and a year are already done. What's left is focused time and the first customers, which is exactly what we're raising for.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · WHY NOW -->
+  <section class="dark" id="why" data-label="Why now">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">09</span> · Why now</span>
+      <div class="eyebrow-line reveal"></div>
+      <h2 class="title reveal d1">Five tailwinds, all blowing the same way.</h2>
+      <div class="why-grid" style="margin-top:34px">
+        <div class="why reveal d2"><span class="ic">⚖️</span><h3>GDPR enforcement tightening</h3><p>Regulators are increasingly willing to reject US-cloud arrangements for children's data, exactly as Denmark did.</p></div>
+        <div class="why reveal d2"><span class="ic">🇪🇺</span><h3>EU funding sovereignty</h3><p>Digital sovereignty is now a stated European strategic priority, with public money behind it.</p></div>
+        <div class="why reveal d3"><span class="ic">🛡️</span><h3>Backlash against data harvesting</h3><p>Parents and institutions are done with Big Tech monetizing their children's lives.</p></div>
+        <div class="why reveal d3"><span class="ic">📵</span><h3>Smartphone-free childhood</h3><p>A movement toward intentional, protected childhood makes "the dedicated, private app" the trusted choice.</p></div>
+        <div class="why reveal d4"><span class="ic">🤖</span><h3>AI changes the math</h3><p>AI lets one platform engineer build and maintain enterprise-grade software that used to need a team.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · FOUNDER -->
+  <section class="tint" id="founder" data-label="Founder">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="num">10</span> · Founder</span>
+      <div class="eyebrow-line reveal"></div>
+      <div class="founder" style="margin-top:30px">
+        <div class="ava reveal d2"><span class="mono">A</span></div>
+        <div class="reveal d2">
+          <blockquote>"I spent a decade preventing defects and protecting systems in production. Now I'm applying that to protecting children's data."</blockquote>
+          <p class="role-line"><b>Solo founder · 10+ years as a Quality & Platform engineer.</b> A career spent stopping bugs from reaching users and keeping production systems safe, which is the exact discipline a children's-data platform demands.</p>
+          <p class="role-line" style="margin-top:12px">A <b>father of two</b> who lived under AULA in Denmark, loved the one-channel calm it gave families, and missed it the moment it was gone.</p>
+          <div class="honest reveal d3">Honest about the gap: the founder is an engineer first. <b>First hire is GTM / sales</b>, the faculty the product doesn't yet have.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · THE ASK -->
+  <section class="ask" id="ask" data-label="The ask">
+    <div class="wrap">
+      <span class="kicker reveal" style="color:var(--teal)">11 · The ask</span>
+      <h2 class="title reveal d1" style="color:#fff;margin:18px auto 0;text-align:center;max-width:22ch">We're raising a pre-seed round.</h2>
+      <div class="amount reveal d2" style="margin-top:24px">€150,000</div>
+      <p class="amount-cap reveal d2">pre-seed · funds ~18 months of focused execution</p>
+      <div class="uses reveal d3">
+        <div class="use"><div class="n">01</div><h3>Demo → production</h3><p>Buy the founder the focused, uninterrupted time to fix the known bugs and harden the working demo into a production-ready platform.</p></div>
+        <div class="use"><div class="n">02</div><h3>First paying pilots</h3><p>Land 5 to 10 paying pilot centers across Europe. That traction turns proven execution into a fundable trajectory.</p></div>
+        <div class="use"><div class="n">03</div><h3>First GTM hire</h3><p>Add the go-to-market faculty the company needs to actually sell what it has built.</p></div>
+      </div>
+      <p class="contact reveal d4" style="margin-top:42px"><strong style="color:#fff">€150k buys the focused time to take this from working demo to production-ready, and to land the first paying pilots.</strong></p>
+      <p class="contact reveal d4"><a href="mailto:alex.radulescu@pm.me">alex.radulescu@pm.me</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span class="brandmark"><span class="glyph">K</span> KinderGuard</span>
+      <span>KinderGuard · <a href="mailto:alex.radulescu@pm.me">alex.radulescu@pm.me</a></span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var progress = document.getElementById('progress');
+  var topbar = document.getElementById('topbar');
+  var dotsWrap = document.getElementById('dots');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Build dots
+  sections.forEach(function(sec, i){
+    var b = document.createElement('button');
+    b.title = sec.getAttribute('data-label') || ('Section ' + (i+1));
+    b.setAttribute('aria-label', b.title);
+    if(sec.classList.contains('dark') || sec.classList.contains('hero') || sec.classList.contains('ask')) b.classList.add('on-dark');
+    b.addEventListener('click', function(){ sec.scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}); });
+    dotsWrap.appendChild(b);
+  });
+  var dotBtns = Array.prototype.slice.call(dotsWrap.children);
+
+  // Progress + topbar + active dot
+  function onScroll(){
+    var st = deck.scrollTop;
+    var max = deck.scrollHeight - deck.clientHeight;
+    progress.style.width = (max>0 ? (st/max*100) : 0) + '%';
+    if(st > 24) topbar.classList.add('scrolled'); else topbar.classList.remove('scrolled');
+  }
+  deck.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Active section dot via IntersectionObserver (no reveal/fade)
+  if('IntersectionObserver' in window){
+    var secObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var idx = sections.indexOf(e.target);
+          dotBtns.forEach(function(d,i){ d.classList.toggle('active', i===idx); });
+        }
+      });
+    }, {root: deck, threshold:0.5});
+    sections.forEach(function(s){ secObs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
